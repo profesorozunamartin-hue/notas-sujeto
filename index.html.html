@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calificaciones - Sujeto de la Educación Secundaria</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #4a6fa5 0%, #5a8fc4 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .header {
+            background: #3d5a7d;
+            width: 100%;
+            max-width: 900px;
+            padding: 30px;
+            text-align: center;
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .logo-container {
+            margin-bottom: 20px;
+        }
+        
+        .logo {
+            max-width: 120px;
+            height: auto;
+        }
+        
+        .header h1 {
+            color: white;
+            font-size: 42px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .header h2 {
+            color: #f0f0f0;
+            font-size: 24px;
+            font-weight: normal;
+            font-style: italic;
+        }
+        
+        .container {
+            background: white;
+            padding: 60px 50px;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 900px;
+            width: 100%;
+        }
+        
+        h3 {
+            color: #3d5a7d;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 32px;
+            font-style: italic;
+        }
+        
+        .carrera {
+            text-align: center;
+            color: #5a8fc4;
+            font-size: 20px;
+            font-style: italic;
+            margin-bottom: 30px;
+        }
+        
+        .input-group {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        label {
+            display: block;
+            color: #3d5a7d;
+            margin-bottom: 12px;
+            font-weight: 600;
+            font-size: 18px;
+            font-style: italic;
+        }
+        
+        input {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            border: 3px solid #5a8fc4;
+            border-radius: 12px;
+            font-size: 20px;
+            font-family: Arial, sans-serif;
+            font-style: italic;
+            transition: border-color 0.3s;
+            text-align: center;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #3d5a7d;
+        }
+        
+        .button-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        button {
+            padding: 20px 60px;
+            background: linear-gradient(135deg, #4a6fa5 0%, #5a8fc4 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 20px;
+            font-family: Arial, sans-serif;
+            font-style: italic;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(74, 111, 165, 0.5);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .result {
+            margin-top: 40px;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .result.success {
+            background: #e3f2fd;
+            border: 3px solid #5a8fc4;
+            display: block;
+        }
+        
+        .result.error {
+            background: #ffebee;
+            border: 3px solid #ef5350;
+            display: block;
+        }
+        
+        .alumno-nombre {
+            font-size: 26px;
+            font-family: Arial, sans-serif;
+            font-style: italic;
+            color: #3d5a7d;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .nota-display {
+            font-size: 80px;
+            font-weight: bold;
+            color: #4a6fa5;
+            margin: 25px 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        .result-text {
+            font-size: 20px;
+            font-family: Arial, sans-serif;
+            font-style: italic;
+            color: #3d5a7d;
+            margin-bottom: 15px;
+        }
+        
+        .leyenda-text {
+            font-size: 18px;
+            font-family: Arial, sans-serif;
+            font-style: italic;
+            color: #555;
+            margin-top: 25px;
+            padding: 20px;
+            background: rgba(90, 143, 196, 0.15);
+            border-radius: 12px;
+            line-height: 1.6;
+        }
+        
+        .error-text {
+            font-size: 18px;
+            font-family: Arial, sans-serif;
+            font-style: italic;
+            color: #c62828;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo-container">
+            <img src="https://i.imgur.com/aLui7ds.png" alt="Logo UEGP N°172" class="logo">
+        </div>
+        <h1>UEGP N°172</h1>
+        <h2>"Gdor. Deolindo Felipe Bittel"</h2>
+    </div>
+    
+    <div class="container">
+        <h3>Calificaciones Sujeto de la Educación Secundaria</h3>
+        <p class="carrera">Profesorado para la Educación Secundaria en Informática</p>
+        <p style="text-align: center; color: #3d5a7d; font-size: 18px; font-style: italic; margin-bottom: 30px;">Profesor: Martín Ozuna</p>
+        
+        <div class="input-group">
+            <label for="codigo">Ingresá tu nombre:</label>
+            <input type="text" id="codigo" placeholder="Ej: María" autocomplete="off">
+        </div>
+        
+        <div class="button-container">
+            <button onclick="consultarNota()">Consultar Nota</button>
+        </div>
+        
+        <div id="resultado" class="result"></div>
+    </div>
+
+    <script>
+        // Base de datos de estudiantes
+        const estudiantes = {
+            'maria': {
+                nombre: 'María',
+                nota: 9,
+                leyenda: 'Gracias por dejarme participar de parte de tu historia académica'
+            },
+            'guillermo': {
+                nombre: 'Guillermo',
+                nota: 9,
+                leyenda: 'Tu perfil silencioso no opaca tus intervenciones interesantes y tu manera de colaborar con la clase. Gracias.'
+            },
+            'agostina': {
+                nombre: 'Agostina',
+                nota: 9,
+                leyenda: 'Qué carácter he, vas a ser esa profesora que siempre da gusto encontrar en un equipo de trabajo'
+            },
+            'marisel': {
+                nombre: 'Marisel',
+                nota: 9,
+                leyenda: 'Tu historia es un ejemplo de humildad, resiliencia, prudencia y de darle valor a las cosas, muchas gracias'
+            },
+            'ana': {
+                nombre: 'Ana',
+                nota: 9,
+                leyenda: 'Ana, excelente respuesta a cada pregunta, califico conocimiento demostrado'
+            },
+            'jonathan': {
+                nombre: 'Jonathan',
+                nota: 8,
+                leyenda: 'Buenas respuestas, gracias por volver a tu trayecto formativo'
+            },
+            'guillermo s': {
+                nombre: 'Guillermo S',
+                nota: 9,
+                leyenda: 'Tus intervenciones son disruptivas y saludables, una voz anclada en la realidad social'
+            },
+            'guillermos': {
+                nombre: 'Guillermo S',
+                nota: 9,
+                leyenda: 'Tus intervenciones son disruptivas y saludables, una voz anclada en la realidad social'
+            },
+            'gabriel': {
+                nombre: 'Gabriel',
+                nota: 9,
+                leyenda: 'Una mirada crítica, a veces extensa, sobre los temas que tratamos. No cursás más bien planeas sobre las unidades, superás ampliamente las exigencias del espacio'
+            },
+            'pablo': {
+                nombre: 'Pablo',
+                nota: 9,
+                leyenda: 'La voz docente entre los alumnos. El contenido teórico se filtra por tu mirada muy pegada a la realidad educativa y eso hace de la experiencia pedagógica algo mucho más enriquecedor'
+            }
+        };
+
+        function consultarNota() {
+            const codigo = document.getElementById('codigo').value.trim().toLowerCase();
+            const resultado = document.getElementById('resultado');
+            
+            if (codigo === '') {
+                resultado.className = 'result error';
+                resultado.innerHTML = '<p class="error-text">Por favor, ingresá tu nombre</p>';
+                return;
+            }
+            
+            if (estudiantes[codigo]) {
+                const estudiante = estudiantes[codigo];
+                resultado.className = 'result success';
+                resultado.innerHTML = `
+                    <div class="alumno-nombre">${estudiante.nombre}</div>
+                    <p class="result-text">Tu calificación es:</p>
+                    <div class="nota-display">${estudiante.nota}</div>
+                    <div class="leyenda-text">${estudiante.leyenda}</div>
+                    <p style="text-align: right; margin-top: 20px; font-size: 16px; font-style: italic; color: #3d5a7d;">Prof. Martín Ozuna</p>
+                `;
+            } else {
+                resultado.className = 'result error';
+                resultado.innerHTML = '<p class="error-text">Nombre no encontrado. Verificá que esté correctamente escrito.</p>';
+            }
+        }
+        
+        // Permitir consultar con Enter
+        document.getElementById('codigo').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                consultarNota();
+            }
+        });
+    </script>
+</body>
+</html>
