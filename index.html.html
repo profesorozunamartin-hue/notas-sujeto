@@ -216,6 +216,32 @@
             font-style: italic;
             color: #c62828;
         }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 32px;
+            }
+            
+            .header h2 {
+                font-size: 18px;
+            }
+            
+            .container {
+                padding: 40px 30px;
+            }
+            
+            h3 {
+                font-size: 24px;
+            }
+            
+            .carrera {
+                font-size: 16px;
+            }
+            
+            .nota-display {
+                font-size: 60px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -234,7 +260,7 @@
         
         <div class="input-group">
             <label for="codigo">Ingresá tu nombre:</label>
-            <input type="text" id="codigo" placeholder="Ej: María" autocomplete="off">
+            <input type="text" id="codigo" placeholder="Ej: MARÍA" autocomplete="off">
         </div>
         
         <div class="button-container">
@@ -300,7 +326,8 @@
         };
 
         function consultarNota() {
-            const codigo = document.getElementById('codigo').value.trim().toLowerCase();
+            const codigo = document.getElementById('codigo').value.trim().toLowerCase()
+                .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
             const resultado = document.getElementById('resultado');
             
             if (codigo === '') {
